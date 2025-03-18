@@ -7,66 +7,90 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   >
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  >
   <title>Team Fire Weather App</title>
   <link
     rel="stylesheet"
     href="./style.css"
   >
+  <script
+    src="https://kit.fontawesome.com/beb1bc6f21.js"
+    crossorigin="anonymous"
+  ></script>
 </head>
 
-<body>
+<body class="cloud">
   <main>
     <section
       class=""
       id="city-card"
     >
       <div
-        class=""
+        class="container"
         id="todaysForecast"
       >
-        <p>clear sky | 6°C
-          sunrise 05:58
-          sunset 17:53
-        </p>
+        <p><span id="weatherDesc">clear sky</span> | <span id="mainTemp">6°C</span></p>
+        <p>sunrise <span id="sunrise">05:58</span></p>
+        <p>sunset <span id="sunset">17:53</span></p>
       </div>
       <div
-        class=""
+        class="container"
         id="weatherIcon"
       >
-        <img
-          src=""
-          alt=""
-          srcset=""
-        >
+        <i class="fa-solid fa-glasses"></i>
       </div>
-      <div class="">
-        <h2>Get your sunnies on. Stockholm is looking rather great today.</h2>
+      <div class="container">
+        <h2 id="weatherMain">Get your sunnies on. <span id="cityName">Stockholm</span> is looking rather great today.
+        </h2>
       </div>
-      <div class="">
-        <ul>
-          <li>Mon <span>5°C</span></li>
-          <li>Tue <span>4°C</span></li>
-          <li>Wed <span>5°C</span></li>
-          <li>Thu <span>6°C</span></li>
-          <li>Fri <span>5°C</span></li>
+      <div
+        class="container"
+        id=""
+      >
+        <ul id="weekForecast">
+          <li><span>Mon</span> <span>5°C</span></li>
+          <li><span>Tue</span> <span>4°C</span></li>
+          <li><span>Wed</span> <span>5°C</span></li>
+          <li><span>Thu</span> <span>6°C</span></li>
+          <li><span>Fri</span> <span>5°C</span></li>
         </ul>
       </div>
-      <div class="">
-        <form
-          id="searchBar"
-          action=""
+
+      <form
+        class="container"
+        id="searchBar"
+        action=""
+      >
+        <input
+          type="text"
+          placeholder="Type a city..."
+          id="searchInput"
         >
-          <input
-            type="text"
-            placeholder="Type a city..."
-          >
-          <button type="button">Search</button>
-        </form>
-      </div>
+        <button
+          type="button"
+          id="inputBtn"
+        >Search</button>
+      </form>
 
     </section>
 
   </main>
+  <footer class="">
+    <p>Created by: Oskar, Sofia, Sofie & Varia</p>
+    <i class="fa-brands fa-github"></i>
+  </footer>
 
   <script src="./script.js"></script>
 </body>
