@@ -7,42 +7,57 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   >
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  >
   <title>Team Fire Weather App</title>
   <link
     rel="stylesheet"
     href="./style.css"
   >
+  <script
+    src="https://kit.fontawesome.com/beb1bc6f21.js"
+    crossorigin="anonymous"
+  ></script>
 </head>
 
 <body>
-  <main>
+  <main class="rain">
     <section
       class=""
       id="city-card"
     >
       <div
-        class=""
+        class="cardSection"
         id="todaysForecast"
       >
-        <p>clear sky | 6°C
-          sunrise 05:58
-          sunset 17:53
-        </p>
+        <p>clear sky | 6°C</p>
+        <p>sunrise 05:58</p>
+        <p> sunset 17:53</p>
       </div>
       <div
-        class=""
+        class="cardSection"
         id="weatherIcon"
       >
-        <img
-          src=""
-          alt=""
-          srcset=""
-        >
+        <i class="fa-solid fa-glasses"></i>
       </div>
-      <div class="">
+      <div class="cardSection">
         <h2>Get your sunnies on. Stockholm is looking rather great today.</h2>
       </div>
-      <div class="">
+      <div
+        class="cardSection"
+        id="weekForecast"
+      >
         <ul>
           <li>Mon <span>5°C</span></li>
           <li>Tue <span>4°C</span></li>
@@ -51,7 +66,7 @@
           <li>Fri <span>5°C</span></li>
         </ul>
       </div>
-      <div class="">
+      <div class="cardSection">
         <form
           id="searchBar"
           action=""

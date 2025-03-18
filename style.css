@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  font-family: "Montserrat", Helvetica, sans-serif;
+  font-size: 17px;
+}
+
+#city-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+  max-width: 450px;
+}
+
+.cardSection {
+  padding: 6px;
+}
+
+#todaysForecast {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+#weekForecast {}
+
+i {
+  font-size: 85px;
+  padding: 5px;
+}
+
+h1,
+h2,
+p,
+ul,
+input,
+button {
+  margin: 0;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3px;
+  border-bottom: #2A5510 1px dashed;
+}
+
+button,
+input {
+  all: unset;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 15px;
+  color: #FFFFFF;
+}
+
+/* Styling form content on clear */
+input {
+  border: 1px solid #2A5510;
+  background-color: #FFFFFF;
+}
+
+input::placeholder {
+  color: #2A5510;
+}
+
+button {
+  background-color: #2A5510;
+}
+
+/* Styling form content on rain */
+.rain input {
+  border: 1px solid #164A68;
+  background-color: #FFFFFF;
+}
+
+input::placeholder {
+  color: #164A68;
+}
+
+button {
+  background-color: #164A68;
+}
+
+
+
+/* Toggle between these classes dependingon weather */
+
+main.clear {
+  background-color: #F7E9B9;
+  color: #2A5510;
+}
+
+main.rain {
+  background-color: #BDE8FA;
+  color: #164A68;
+}
+
+main.cloud {
+  background-color: #F9FDFE;
+  color: #F47775;
+}
