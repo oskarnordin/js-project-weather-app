@@ -6,6 +6,7 @@ let fetchedData = []
 let cityName = document.getElementById("cityName")
 let weatherDesc = document.getElementById("weatherDesc")
 let sunrise = document.getElementById("sunrise")
+let mainTemp = document.getElementById("mainTemp")
 
 const fetchData = async () => {
   try {
@@ -53,13 +54,37 @@ const updateCity = () => {
   if (fetchedData.city && fetchedData.city.name) {
     cityName.innerHTML = fetchedData.city.name
 
+    weatherDesc.innerHTML = fetchedData.list[0].weather[0].description
+
+    updateWeather()
     timeConversion()
-    
+    updateMainTemp()
+
   } else {
     console.error("City data is missing in fetchedData", fetchedData)
   }
 }
 
+const updateWeather = () => {
+  if (fetchedData.list[0].weather[0].main === "Clear") {
+    document.body.classList.add("clear")
+    } else if (fetchedData.list[0].weather[0].main === "Clouds") {
+      document.body.classList.add("cloud")
+    } else if (fetchedData.list[0].weather[0].main === "Rain") {
+      document.body.style.classList.add("rain")}
+    else {
+      document.body.classList.add("default")
+    } 
+  }
+
+const updateMainTemp = () => {
+  if (fetchedData.list[0].main.temp) {
+    const tempInCelsius = fetchedData.list[0].main.temp - 273.15
+    mainTemp.innerHTML = tempInCelsius.toFixed(0) + "°C"
+  } else {
+    console.error("Main temperature is missing in fetchedData", fetchedData)
+  }
+}
 
 
 fetchData()
