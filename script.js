@@ -8,11 +8,12 @@ let weatherDesc = document.getElementById("weatherDesc")
 let sunrise = document.getElementById("sunrise")
 let mainTemp = document.getElementById("mainTemp")
 let weatherIcon = document.getElementById("weatherIcon")
+let searchButton = document.getElementById("inputBtn")
 
-const fetchData = async () => {
+const fetchData = async (url) => {
   try {
-    const response = await fetch(URL)
-    console.log(URL)
+    const response = await fetch(url)
+    console.log(url)
 
     if (!response.ok) {
       throw new Error(`Status ${response.status}`)
@@ -22,7 +23,6 @@ const fetchData = async () => {
 
     fetchedData = data
     console.log(fetchedData)
-
 
     updateCity()
   } catch (error) {
@@ -67,6 +67,7 @@ const updateCity = () => {
 }
 
 const updateWeather = () => {
+  document.body.className = ''; // Remove all classes
   if (fetchedData.list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear")
     weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-glasses"></i>`
@@ -76,8 +77,7 @@ const updateWeather = () => {
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
     weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-umbrella"></i>`
-  }
-  else {
+  } else {
     document.body.classList.add("default")
   }
 }
@@ -91,6 +91,16 @@ const updateMainTemp = () => {
   }
 }
 
+const searchCity = () => {
+  let input = document.getElementById("searchInput").value
+  if (input.trim() === "") {
+    alert("Please enter a city name")
+    return
+  }
+  let searchURL = `https://api.openweathermap.org/data/2.5/forecast?q=${input}&appid=15a1790288c26c9ab80c3b6f2209e071`
+  fetchData(searchURL)
+}
 
-fetchData()
-// timeConversion()
+searchButton.addEventListener("click", searchCity)
+
+fetchData(URL)
