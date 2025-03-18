@@ -7,6 +7,7 @@ let cityName = document.getElementById("cityName")
 let weatherDesc = document.getElementById("weatherDesc")
 let sunrise = document.getElementById("sunrise")
 let mainTemp = document.getElementById("mainTemp")
+let weatherIcon = document.getElementById("weatherIcon")
 
 const fetchData = async () => {
   try {
@@ -68,14 +69,18 @@ const updateCity = () => {
 const updateWeather = () => {
   if (fetchedData.list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear")
-    } else if (fetchedData.list[0].weather[0].main === "Clouds") {
-      document.body.classList.add("cloud")
-    } else if (fetchedData.list[0].weather[0].main === "Rain") {
-      document.body.style.classList.add("rain")}
-    else {
-      document.body.classList.add("default")
-    } 
+    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-glasses"></i>`
+  } else if (fetchedData.list[0].weather[0].main === "Clouds") {
+    document.body.classList.add("cloud")
+    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-cloud"></i>`
+  } else if (fetchedData.list[0].weather[0].main === "Rain") {
+    document.body.classList.add("rain")
+    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-umbrella"></i>`
   }
+  else {
+    document.body.classList.add("default")
+  }
+}
 
 const updateMainTemp = () => {
   if (fetchedData.list[0].main.temp) {
