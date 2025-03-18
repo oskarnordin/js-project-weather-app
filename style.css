@@ -5,7 +5,7 @@
 body {
   margin: 0 auto;
   font-family: "Montserrat", Helvetica, sans-serif;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 #city-card {
@@ -16,7 +16,7 @@ body {
   max-width: 450px;
 }
 
-.cardSection {
+.container {
   padding: 6px;
 }
 
@@ -56,8 +56,8 @@ li {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3px;
-  border-bottom: #2A5510 1px dashed;
+  padding: 4px;
+  border-bottom: 1px dashed;
 }
 
 button,
@@ -65,22 +65,24 @@ input {
   all: unset;
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 15px;
+  font-size: 16px;
   color: #FFFFFF;
 }
 
-/* Styling form content on clear */
-input {
-  border: 1px solid #2A5510;
-  background-color: #FFFFFF;
+footer {
+  padding: 24px;
+  font-size: 15px;
 }
 
-input::placeholder {
-  color: #2A5510;
+footer i {
+  font-size: 25px;
 }
 
-button {
-  background-color: #2A5510;
+/* styling on rain */
+
+body.rain {
+  background-color: #BDE8FA;
+  color: #164A68;
 }
 
 /* Styling form content on rain */
@@ -89,29 +91,53 @@ button {
   background-color: #FFFFFF;
 }
 
-input::placeholder {
+.rain input::placeholder {
   color: #164A68;
 }
 
-button {
+.rain button {
   background-color: #164A68;
 }
 
+/* styling on cloud */
+
+body.cloud {
+  background-color: #F9FDFE;
+  color: #F47775;
+}
+
+/* Styling form content on cloud */
+.cloud input {
+  border: 1px solid #F47775;
+  background-color: #FFFFFF;
+}
+
+.cloud input::placeholder {
+  color: #F47775;
+}
+
+.cloud button {
+  background-color: #F47775;
+}
+
+/* styling on clear */
 
 
-/* Toggle between these classes dependingon weather */
-
-main.clear {
+body.clear {
   background-color: #F7E9B9;
   color: #2A5510;
 }
 
-main.rain {
-  background-color: #BDE8FA;
-  color: #164A68;
+/* Styling form content on clear */
+.clear input {
+  border: 1px solid #2A5510;
+  background-color: #FFFFFF;
 }
 
-main.cloud {
-  background-color: #F9FDFE;
-  color: #F47775;
+.clear input::placeholder {
+  color: #2A5510;
+}
+
+.clear button {
+  background-color: #2A5510;
 }
