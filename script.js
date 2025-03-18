@@ -16,7 +16,7 @@ const fetchData = async () => {
 
     const data = await response.json()
 
-    fetchedData = data.list
+    fetchedData = data
     console.log(fetchedData)
 
         
