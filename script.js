@@ -7,8 +7,6 @@ let cityName = document.getElementById("cityName")
 let weatherDesc = document.getElementById("weatherDesc")
 let sunrise = document.getElementById("sunrise")
 
-// console.log(URL)
-
 const fetchData = async () => {
   try {
     const response = await fetch(URL)
@@ -24,21 +22,45 @@ const fetchData = async () => {
     console.log(fetchedData)
 
 
-    updateCity();
+    updateCity()
   } catch (error) {
     alert("There was an error, please try again later: " + error)
     console.error("Error fetching data:", error)
   }
 }
 
+const timeConversion = () => {
+  const timestamps = {
+    sunrise: fetchedData.city.sunrise,
+    sunset: fetchedData.city.sunset
+  }
+
+  Object.entries(timestamps).forEach(([key, value]) => {
+    const date = new Date(value * 1000)
+
+    const hours = date.getHours().toString().padStart(2, '0')
+    const minutes = date.getMinutes().toString().padStart(2, '0')
+    const seconds = date.getSeconds().toString().padStart(2, '0')
+
+    console.log(`${key}: ${hours}:${minutes}:${seconds}`)
+
+    // Update the respective HTML elements
+    document.getElementById(key).innerHTML = `${hours}:${minutes}`
+  })
+}
+
 const updateCity = () => {
   if (fetchedData.city && fetchedData.city.name) {
     cityName.innerHTML = fetchedData.city.name
 
-    sunrise.innerHTML = fetchedData.city.sunrise
+    timeConversion()
+    
   } else {
     console.error("City data is missing in fetchedData", fetchedData)
   }
-};
+}
+
+
 
 fetchData()
+// timeConversion()
