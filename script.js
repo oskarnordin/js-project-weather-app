@@ -6,8 +6,8 @@ let fetchedData = []
 // console.log(URL)
 
 const fetchData = async () => {
-  try{
-    const response = await fetch (URL)
+  try {
+    const response = await fetch(URL)
     console.log(URL)
 
     if (!response.ok) {
@@ -19,9 +19,9 @@ const fetchData = async () => {
     fetchedData = data
     console.log(fetchedData)
 
-        
+
   }
-  catch (error){
+  catch (error) {
     alert("There was an error, please try agein later" + error)
     console.error("Error fetching data:", error)
   }
