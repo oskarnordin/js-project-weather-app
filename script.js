@@ -4,6 +4,8 @@ let lat = []
 let lon = []
 let fetchedData = []
 let cityName = document.getElementById("cityName")
+let weatherDesc = document.getElementById("weatherDesc")
+let sunrise = document.getElementById("sunrise")
 
 // console.log(URL)
 
@@ -24,16 +26,18 @@ const fetchData = async () => {
 
     updateCity();
   } catch (error) {
-    alert("There was an error, please try again later: " + error);
-    console.error("Error fetching data:", error);
+    alert("There was an error, please try again later: " + error)
+    console.error("Error fetching data:", error)
   }
 }
 
 const updateCity = () => {
   if (fetchedData.city && fetchedData.city.name) {
-    cityName.innerHTML = fetchedData.city.name;
+    cityName.innerHTML = fetchedData.city.name
+
+    sunrise.innerHTML = fetchedData.city.sunrise
   } else {
-    console.error("City data is missing in fetchedData", fetchedData);
+    console.error("City data is missing in fetchedData", fetchedData)
   }
 };
 
