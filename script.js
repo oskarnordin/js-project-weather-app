@@ -54,9 +54,12 @@ const fetchForecastData = async (url) => {
       })
       .slice(0, 4)
       .map(item => {
+        const date = new Date(item.dt * 1000)
+        const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) // Format date without year
+        const temp = Math.round(item.main.temp - 273.15) // Convert temp to Celsius and round to nearest integer
         return {
-          date: new Date(item.dt * 1000).toLocaleDateString(),
-          temp: item.main.temp - 273.15,
+          date: formattedDate,
+          temp: temp,
           description: item.weather[0].description
         }
       })
@@ -74,7 +77,7 @@ const updateForecast = () => {
   console.log(fetchedData.forecast)
   fetchedData.forecast.forEach((day) => {
     const listItem = document.createElement("li")
-    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp.toFixed(1)}°C</span> <span>${day.description}</span>`
+    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <span>${day.description}</span>`
     forecastContainer.appendChild(listItem)
   })
 }
