@@ -1,7 +1,9 @@
-const URL = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" //Default Stockholm
+const defaultURL = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" // Stockholm
 
-let lat = []
-let lon = []
+const nycURL = "https://api.openweathermap.org/data/2.5/forecast?lat=40.71427&lon=-74.00597&appid=15a1790288c26c9ab80c3b6f2209e071" // NYC
+
+const hkURL = "https://api.openweathermap.org/data/2.5/forecast?lat=22.28552&lon=114.15769&appid=15a1790288c26c9ab80c3b6f2209e071" // Hong Kong
+
 let fetchedData = []
 let cityName = document.getElementById("cityName")
 let weatherMain = document.getElementById("weatherMain")
@@ -10,6 +12,7 @@ let sunrise = document.getElementById("sunrise")
 let mainTemp = document.getElementById("mainTemp")
 let weatherIcon = document.getElementById("weatherIcon")
 let searchButton = document.getElementById("inputBtn")
+let nextCity = document.getElementById("nextCity")
 
 const fetchData = async (url) => {
   try {
@@ -75,23 +78,19 @@ const updateWeather = () => {
     weatherIcon.innerHTML = `<img
           src="./img/clear.svg"
           alt="Sunglasses for clear weather"
-          class="weatherIconClear"
+          class="weatherIcon weatherIconClear"
         >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
     weatherMain.innerHTML = `Light a fire and get cosy. ${fetchedData.city.name} is looking grey today.`
-    weatherIcon.innerHTML = `<img
-          src="./img/cloud.svg"
-          alt="A cloud for cloudy weather"
-          class="weatherIconCloud"
-        >`
+    weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
     weatherMain.innerHTML = `Don't forget your umbrella. It's wet in ${fetchedData.city.name} today.`
     weatherIcon.innerHTML = `<img
           src="./img/rain.svg"
           alt="An umbrella for rainy weather"
-          class="weatherIconRain"
+          class="weatherIcon weatherIconRain"
         >`
   } else {
     document.body.classList.add("default")
@@ -119,4 +118,16 @@ const searchCity = () => {
 
 searchButton.addEventListener("click", searchCity)
 
-fetchData(URL)
+const nextCityClick = () => {
+  if (fetchedData.city.name === "Stockholm") {
+    fetchData(nycURL)
+  } else if (fetchedData.city.name === "New York") {
+    fetchData(hkURL)
+  } else {
+    fetchData(defaultURL)
+  }
+}
+
+nextCity.addEventListener("click", nextCityClick)
+
+fetchData(defaultURL)
