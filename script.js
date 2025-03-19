@@ -1,7 +1,9 @@
-const URL = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" //Default Stockholm
+const defaultURL = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" // Stockholm
 
-let lat = []
-let lon = []
+const nycURL = "https://api.openweathermap.org/data/2.5/forecast?lat=40.71427&lon=-74.00597&appid=15a1790288c26c9ab80c3b6f2209e071" // NYC
+
+const hkURL = "https://api.openweathermap.org/data/2.5/forecast?lat=22.28552&lon=114.15769&appid=15a1790288c26c9ab80c3b6f2209e071" // Hong Kong
+
 let fetchedData = []
 let cityName = document.getElementById("cityName")
 let weatherMain = document.getElementById("weatherMain")
@@ -10,6 +12,7 @@ let sunrise = document.getElementById("sunrise")
 let mainTemp = document.getElementById("mainTemp")
 let weatherIcon = document.getElementById("weatherIcon")
 let searchButton = document.getElementById("inputBtn")
+let nextCity = document.getElementById("nextCity")
 
 const fetchData = async (url) => {
   try {
@@ -119,4 +122,16 @@ const searchCity = () => {
 
 searchButton.addEventListener("click", searchCity)
 
-fetchData(URL)
+const nextCityClick = () => {
+  if (fetchedData.city.name === "Stockholm") {
+    fetchData(nycURL)
+  } else if (fetchedData.city.name === "New York") {
+    fetchData(hkURL)
+  } else {
+    fetchData(defaultURL)
+  }
+}
+
+nextCity.addEventListener("click", nextCityClick)
+
+fetchData(defaultURL)
