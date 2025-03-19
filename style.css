@@ -11,12 +11,12 @@ body {
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
-
 }
 
 main {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -52,6 +52,13 @@ button {
   margin: 0;
 }
 
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+  padding: 20px;
+  text-align: center;
+}
+
 h2 {
   font-size: 30px;
   font-weight: 700;
@@ -69,6 +76,12 @@ li {
   justify-content: space-between;
   padding: 4px;
   border-bottom: 1px dashed;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
 button,
