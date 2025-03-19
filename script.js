@@ -67,16 +67,28 @@ const updateCity = () => {
 }
 
 const updateWeather = () => {
-  document.body.className = ''; // Remove all classes
+  document.body.className = ''
   if (fetchedData.list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear")
-    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-glasses"></i>`
+    weatherIcon.innerHTML = `<img
+          src="./img/sun.png"
+          alt="Sunglasses for clear weather"
+          class="weatherIconClear"
+        >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
-    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-cloud"></i>`
+    weatherIcon.innerHTML = `<img
+          src="./img/cloud.png"
+          alt="A cloud for cloudy weather"
+          class="weatherIconCloud"
+        >`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
-    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-umbrella"></i>`
+    weatherIcon.innerHTML = `<img
+          src="./img/rain.png"
+          alt="An umbrella for rainy weather"
+          class="weatherIconRain"
+        >`
   } else {
     document.body.classList.add("default")
   }
