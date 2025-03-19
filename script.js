@@ -4,6 +4,7 @@ let lat = []
 let lon = []
 let fetchedData = []
 let cityName = document.getElementById("cityName")
+let weatherMain = document.getElementById("weatherMain")
 let weatherDesc = document.getElementById("weatherDesc")
 let sunrise = document.getElementById("sunrise")
 let mainTemp = document.getElementById("mainTemp")
@@ -70,6 +71,7 @@ const updateWeather = () => {
   document.body.className = ''
   if (fetchedData.list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear")
+    weatherMain.innerHTML = `Get your sunnies on. ${fetchedData.city.name} is looking rather great today.`
     weatherIcon.innerHTML = `<img
           src="./img/clear.svg"
           alt="Sunglasses for clear weather"
@@ -77,6 +79,7 @@ const updateWeather = () => {
         >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
+    weatherMain.innerHTML = `Light a fire and get cosy. ${fetchedData.city.name} is looking grey today.`
     weatherIcon.innerHTML = `<img
           src="./img/cloud.svg"
           alt="A cloud for cloudy weather"
@@ -84,6 +87,7 @@ const updateWeather = () => {
         >`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
+    weatherMain.innerHTML = `Don't forget your umbrella. It's wet in ${fetchedData.city.name} today.`
     weatherIcon.innerHTML = `<img
           src="./img/rain.svg"
           alt="An umbrella for rainy weather"
