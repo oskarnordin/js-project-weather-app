@@ -55,6 +55,7 @@ button {
 h2 {
   font-size: 30px;
   font-weight: 700;
+  margin-top: 50px;
 }
 
 ul {
@@ -174,18 +175,22 @@ body.clear {
 }
 
 /* Animations */
+
+.weatherIcon {
+  position: absolute;
+}
+
 .weatherIconClear {
   animation: bounce 1.5s infinite;
 }
 
 .weatherIconRain {
   animation: wiggle 0.5s ease-in-out infinite;
-  display: inline-block;
+
 }
 
 .weatherIconCloud {
   animation: bounce 1.5s infinite, movement 20s linear infinite;
-  position: absolute;
   left: -100px;
 }
 
@@ -193,11 +198,11 @@ body.clear {
 
   0%,
   100% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1.2);
   }
 
   50% {
-    transform: translateY(-10px) scale(1.2);
+    transform: translateY(-10px) scale(1.3);
   }
 }
 

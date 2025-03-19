@@ -78,23 +78,19 @@ const updateWeather = () => {
     weatherIcon.innerHTML = `<img
           src="./img/clear.svg"
           alt="Sunglasses for clear weather"
-          class="weatherIconClear"
+          class="weatherIcon weatherIconClear"
         >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
     weatherMain.innerHTML = `Light a fire and get cosy. ${fetchedData.city.name} is looking grey today.`
-    weatherIcon.innerHTML = `<img
-          src="./img/cloud.svg"
-          alt="A cloud for cloudy weather"
-          class="weatherIconCloud"
-        >`
+    weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
     weatherMain.innerHTML = `Don't forget your umbrella. It's wet in ${fetchedData.city.name} today.`
     weatherIcon.innerHTML = `<img
           src="./img/rain.svg"
           alt="An umbrella for rainy weather"
-          class="weatherIconRain"
+          class="weatherIcon weatherIconRain"
         >`
   } else {
     document.body.classList.add("default")
