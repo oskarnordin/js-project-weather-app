@@ -29,10 +29,54 @@ const fetchData = async (url) => {
     console.log(fetchedData)
 
     updateCity()
+    fetchForecastData(url) // Fetch forecast data after fetching main weather data
   } catch (error) {
     alert("There was an error, please try again later: " + error)
     console.error("Error fetching data:", error)
   }
+}
+
+const fetchForecastData = async (url) => {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+    const data = await response.json()
+    if (!data.list || data.list.length === 0) {
+      throw new Error("Forecast data is empty or undefined")
+    }
+    fetchedData.forecast = data.list
+      .filter(item => {
+        const date = new Date(item.dt * 1000)
+        const hours = date.getUTCHours()
+        return hours >= 11 && hours <= 15
+      })
+      .slice(0, 4)
+      .map(item => {
+        return {
+          date: new Date(item.dt * 1000).toLocaleDateString(),
+          temp: item.main.temp - 273.15,
+          description: item.weather[0].description
+        }
+      })
+    console.log("Filtered Forecast Data:", fetchedData.forecast)
+    updateForecast()
+  } catch (error) {
+    console.error("Error fetching forecast data:", error)
+    alert("There was an error, please try again later: " + error.message)
+  }
+}
+
+const updateForecast = () => {
+  const forecastContainer = document.getElementById("weekForecast")
+  forecastContainer.innerHTML = ''
+  console.log(fetchedData.forecast)
+  fetchedData.forecast.forEach((day) => {
+    const listItem = document.createElement("li")
+    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp.toFixed(1)}°C</span> <span>${day.description}</span>`
+    forecastContainer.appendChild(listItem)
+  })
 }
 
 const timeConversion = () => {
