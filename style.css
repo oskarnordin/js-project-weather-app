@@ -10,6 +10,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 
 }
 
@@ -142,23 +143,68 @@ body.clear {
   color: #2A5510;
 }
 
-.clear .weatherIcon {
-  width: 100px;
-  height: 100px;
+/* Animations */
+.weatherIconClear {
   animation: bounce 1.5s infinite;
 }
 
+.weatherIconRain {
+  animation: wiggle 0.5s ease-in-out infinite;
+  display: inline-block;
+}
+
+.weatherIconCloud {
+  animation: bounce 1.5s infinite, movement 20s linear infinite;
+  position: absolute;
+  left: -100px;
+}
+
 @keyframes bounce {
-  0% {
-    transform: scale(1);
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
   }
 
   50% {
-    transform: scale(1.2);
+    transform: translateY(-10px) scale(1.2);
+  }
+}
+
+@keyframes movement {
+  0% {
+    left: -100px;
   }
 
   100% {
-    transform: scale(1);
+    left: 100vw;
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+    /* No rotation at the start */
+  }
+
+  25% {
+    transform: rotate(-5deg);
+    /* Slight tilt to the left */
+  }
+
+  50% {
+    transform: rotate(5deg);
+    /* Slight tilt to the right */
+  }
+
+  75% {
+    transform: rotate(-5deg);
+    /* Back to the left */
+  }
+
+  100% {
+    transform: rotate(0deg);
+    /* End at original position */
   }
 }
 
