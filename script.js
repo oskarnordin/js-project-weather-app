@@ -57,10 +57,12 @@ const fetchForecastData = async (url) => {
         const date = new Date(item.dt * 1000)
         const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) // Format date without year
         const temp = Math.round(item.main.temp - 273.15) // Convert temp to Celsius and round to nearest integer
+        const icon = item.weather[0].icon // Get the icon code
         return {
           date: formattedDate,
           temp: temp,
-          description: item.weather[0].description
+          description: item.weather[0].description,
+          icon: icon // Add the icon code to the forecast data
         }
       })
     console.log("Filtered Forecast Data:", fetchedData.forecast)
@@ -77,7 +79,9 @@ const updateForecast = () => {
   console.log(fetchedData.forecast)
   fetchedData.forecast.forEach((day) => {
     const listItem = document.createElement("li")
-    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <span>${day.description}</span>`
+    const iconCode = day.icon // Assuming you have added the icon code to the forecast data
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
+    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp.toFixed(1)}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
     forecastContainer.appendChild(listItem)
   })
 }
