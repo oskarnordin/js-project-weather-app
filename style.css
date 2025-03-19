@@ -13,6 +13,10 @@ body {
   overflow-x: hidden;
 }
 
+header {
+  padding: 20px 10px;
+}
+
 main {
   display: flex;
   flex-direction: row;
@@ -24,7 +28,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: 24px 6px;
+  padding: 24px 12px;
   max-width: 450px;
 }
 
@@ -55,14 +59,14 @@ button {
 h1 {
   font-size: 40px;
   font-weight: 700;
-  padding: 40px 10px;
   text-align: center;
 }
 
 h2 {
   font-size: 30px;
   font-weight: 700;
-  margin-top: 50px;
+  margin-top: 40px;
+  padding: 20px 20px 10px 10px;
 }
 
 ul {
@@ -88,13 +92,19 @@ form {
 button,
 input {
   all: unset;
-  padding: 4px 8px;
+  padding: 6px 12px;
   border-radius: 4px;
   font-size: 16px;
 }
 
 button {
   color: #FFFFFF;
+}
+
+#nextCity {
+  text-align: right;
+  margin-top: -40px;
+  margin-right: 10px;
 }
 
 #nextCity,
@@ -192,6 +202,8 @@ body.clear {
 
 .weatherIcon {
   position: absolute;
+  padding-top: 4px;
+  padding-left: 15px;
 }
 
 .weatherIconClear {
@@ -233,26 +245,21 @@ body.clear {
 @keyframes wiggle {
   0% {
     transform: rotate(0deg);
-    /* No rotation at the start */
   }
 
   25% {
     transform: rotate(-5deg);
-    /* Slight tilt to the left */
   }
 
   50% {
     transform: rotate(5deg);
-    /* Slight tilt to the right */
   }
 
   75% {
     transform: rotate(-5deg);
-    /* Back to the left */
   }
 
   100% {
     transform: rotate(0deg);
-    /* End at original position */
   }
 }
