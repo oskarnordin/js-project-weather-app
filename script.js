@@ -71,21 +71,21 @@ const updateWeather = () => {
   if (fetchedData.list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear")
     weatherIcon.innerHTML = `<img
-          src="./img/sun.png"
+          src="./img/clear.svg"
           alt="Sunglasses for clear weather"
           class="weatherIconClear"
         >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
     weatherIcon.innerHTML = `<img
-          src="./img/cloud.png"
+          src="./img/cloud.svg"
           alt="A cloud for cloudy weather"
           class="weatherIconCloud"
         >`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
     weatherIcon.innerHTML = `<img
-          src="./img/rain.png"
+          src="./img/rain.svg"
           alt="An umbrella for rainy weather"
           class="weatherIconRain"
         >`
