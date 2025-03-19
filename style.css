@@ -24,7 +24,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: 24px;
+  padding: 24px 6px;
   max-width: 450px;
 }
 
