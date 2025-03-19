@@ -45,7 +45,7 @@ const timeConversion = () => {
     const minutes = date.getMinutes().toString().padStart(2, '0')
     const seconds = date.getSeconds().toString().padStart(2, '0')
 
-    console.log(`${key}: ${hours}:${minutes}:${seconds}`)
+    console.log(`tst ${key}: ${hours}:${minutes}:${seconds}`)
 
     // Update the respective HTML elements
     document.getElementById(key).innerHTML = `${hours}:${minutes}`
