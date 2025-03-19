@@ -79,7 +79,7 @@ const updateForecast = () => {
   console.log(fetchedData.forecast)
   fetchedData.forecast.forEach((day) => {
     const listItem = document.createElement("li")
-    const iconCode = day.icon // Assuming you have added the icon code to the forecast data
+    const iconCode = day.icon
     const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
     listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp.toFixed(1)}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
     forecastContainer.appendChild(listItem)
@@ -133,7 +133,7 @@ const updateWeather = () => {
         >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
-    weatherMain.innerHTML = `Light a fire and get cosy. ${fetchedData.city.name} is looking grey today.`
+    weatherMain.innerHTML = `It's sweather weather in ${fetchedData.city.name}. Clouds are covering the sky.`
     weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
@@ -165,6 +165,8 @@ const searchCity = () => {
   }
   let searchURL = `https://api.openweathermap.org/data/2.5/forecast?q=${input}&appid=15a1790288c26c9ab80c3b6f2209e071`
   fetchData(searchURL)
+
+  document.getElementById("searchInput").value = ""
 }
 
 searchButton.addEventListener("click", searchCity)
