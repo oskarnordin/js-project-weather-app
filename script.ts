@@ -1,4 +1,4 @@
-//Interface?
+//Interface for fetched data
 interface FetchedData {
   city:{
     name: string
@@ -16,15 +16,20 @@ interface FetchedData {
   }[]
 }
 
-//DOM Elements
+//API URL
 const defaultURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" //Default Stockholm
+const nycURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=40.71427&lon=-74.00597&appid=15a1790288c26c9ab80c3b6f2209e071" // NYC
+const hkURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=22.28552&lon=114.15769&appid=15a1790288c26c9ab80c3b6f2209e071" // Hong Kong
 
+//DOM Elements
 const cityName = document.getElementById("cityName") as HTMLSpanElement
 const weatherDesc = document.getElementById("weatherDesc") as HTMLSpanElement
 const sunrise = document.getElementById("sunrise") as HTMLSpanElement
 const mainTemp = document.getElementById("mainTemp") as HTMLSpanElement
 const weatherIcon = document.getElementById("weatherIcon") as HTMLDivElement
 const searchButton = document.getElementById("inputBtn") as HTMLButtonElement
+const weatherMain = document.getElementById("weatherMain") as HTMLHeadingElement
+let nextCity = document.getElementById("nextCity") as HTMLDivElement
 
 let fetchedData: FetchedData[] = []
 
@@ -90,18 +95,28 @@ const updateCity = () => {
   }
 }
 
-
 const updateWeather = () => {
-  document.body.className = ''; // Remove all classes
+  document.body.className = ''
   if (fetchedData[0].list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear")
-    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-glasses"></i>`
+    weatherMain.innerHTML = `Get your sunnies on. ${fetchedData[0].city.name} is looking rather great today.`
+    weatherIcon.innerHTML = `<img
+          src="./img/clear.svg"
+          alt="Sunglasses for clear weather"
+          class="weatherIcon weatherIconClear"
+        >`
   } else if (fetchedData[0].list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
-    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-cloud"></i>`
+    weatherMain.innerHTML = `Light a fire and get cosy. ${fetchedData[0].city.name} is looking grey today.`
+    weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
   } else if (fetchedData[0].list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
-    weatherIcon.innerHTML = `<i class="weatherIcon fa-solid fa-umbrella"></i>`
+    weatherMain.innerHTML = `Don't forget your umbrella. It's wet in ${fetchedData[0].city.name} today.`
+    weatherIcon.innerHTML = `<img
+          src="./img/rain.svg"
+          alt="An umbrella for rainy weather"
+          class="weatherIcon weatherIconRain"
+        >`
   } else {
     document.body.classList.add("default")
   }
@@ -133,5 +148,17 @@ const searchCity = () => {
 }
 
 searchButton.addEventListener("click", searchCity)
+
+const nextCityClick = () => {
+  if (fetchedData[0].city.name === "Stockholm") {
+    fetchData(nycURL)
+  } else if (fetchedData[0].city.name === "New York") {
+    fetchData(hkURL)
+  } else {
+    fetchData(defaultURL)
+  }
+}
+
+nextCity.addEventListener("click", nextCityClick)
 
 fetchData(defaultURL)
