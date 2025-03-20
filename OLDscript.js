@@ -77,7 +77,7 @@ const updateForecast = () => {
   fetchedData.forecast.forEach((day) => {
     const listItem = document.createElement("li");
     const iconCode = day.icon;
-            const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
     listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`;
     forecastContainer.appendChild(listItem);
   });
@@ -139,9 +139,6 @@ const timeConversion = () => {
 
     const hours = date.getHours().toString().padStart(2, '0')
     const minutes = date.getMinutes().toString().padStart(2, '0')
-    const seconds = date.getSeconds().toString().padStart(2, '0')
-
-    console.log(`tst ${key}: ${hours}:${minutes}:${seconds}`)
 
     // Update the respective HTML elements
     document.getElementById(key).innerHTML = `${hours}:${minutes}`
@@ -175,8 +172,12 @@ const updateWeather = () => {
         >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
-    weatherMain.innerHTML = `It's sweater weather in ${fetchedData.city.name}. Clouds are covering the sky.`
+    weatherMain.innerHTML = `Old script: It's sweater weather in ${fetchedData.city.name}. Clouds are covering the sky.`
     weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
+  } else if (fetchedData.list[0].weather[0].main === "Snow") {
+    document.body.classList.add("snow")
+    weatherMain.innerHTML = `It's snowing in ${fetchedData.city.name} today. Grab your sled!`
+    weatherIcon.innerHTML = `<i class="fa-solid fa-snowflake weatherIcon weatherIconSnow"></i>`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
     weatherMain.innerHTML = `Don't forget your umbrella. It's wet in ${fetchedData.city.name} today.`

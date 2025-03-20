@@ -138,8 +138,11 @@ const updateWeather = () => {
     document.body.classList.add("cloud");
     weatherMain.innerHTML = `It's sweater weather in ${fetchedData[0].city.name} today. Get cosy!`;
     weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`;
-  }
-  else if (fetchedData[0].list[0].weather[0].main === "Rain") {
+  } else if (fetchedData[0].list[0].weather[0].main === "Snow") {
+    document.body.classList.add("snow")
+    weatherMain.innerHTML = `It's snowing in ${fetchedData[0].city.name} today. Grab your sled!`
+    weatherIcon.innerHTML = `<i class="fa-solid fa-snowflake weatherIcon weatherIconSnow"></i>`
+  } else if (fetchedData[0].list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain");
     weatherMain.innerHTML = `Don't forget your umbrella. It's wet in ${fetchedData[0].city.name} today.`;
     weatherIcon.innerHTML = `<img
@@ -147,9 +150,8 @@ const updateWeather = () => {
           alt="An umbrella for rainy weather"
           class="weatherIcon weatherIconRain"
         >`;
-  }
-  else {
-    document.body.classList.add("default");
+  } else {
+    document.body.classList.add("");
   }
 };
 

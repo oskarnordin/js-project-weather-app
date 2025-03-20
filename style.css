@@ -11,6 +11,8 @@ body {
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
+  background-color: #FFFFFF;
+  color: #000000;
 }
 
 header {
@@ -96,7 +98,17 @@ input {
 }
 
 button {
+  background-color: #000000;
   color: #FFFFFF;
+}
+
+input {
+  border: 1px solid #000000;
+  background-color: #FFFFFF;
+}
+
+input::placeholder {
+  color: #000000;
 }
 
 /* Right arrow styling and placement */
@@ -198,6 +210,27 @@ body.clear {
   background-color: #2A5510;
 }
 
+/* styling on snow */
+
+body.snow {
+  background-color: #F9FDFE;
+  color: #164A68;
+}
+
+/* Styling form content on rain */
+.snow input {
+  border: 1px solid #164A68;
+  background-color: #F9FDFE;
+}
+
+.snow input::placeholder {
+  color: #164A68;
+}
+
+.snow button {
+  background-color: #164A68;
+}
+
 /* Animations */
 
 .weatherIcon {
@@ -219,6 +252,13 @@ body.clear {
   left: -100px;
 }
 
+.weatherIconSnow {
+  top: -50px;
+  left: 80vw;
+  transform: translateX(-50%);
+  animation: falling 20s linear infinite, drifting 5s ease-in-out infinite;
+}
+
 @keyframes bounce {
 
   0%,
@@ -231,35 +271,51 @@ body.clear {
   }
 }
 
+@keyframes falling {
+  0% {
+    top: -50px;
+  }
+
+  100% {
+    top: 150vh;
+  }
+}
+
+@keyframes drifting {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateX(-20px);
+  }
+
+  50% {
+    transform: translateX(-50%) translateX(20px);
+  }
+}
+
 @keyframes movement {
   0% {
-    left: -100px;
+    left: -50px;
   }
 
   100% {
     left: 100vw;
   }
-
 }
 
 @keyframes wiggle {
-  0% {
+
+  0%,
+  100% {
     transform: rotate(0deg);
   }
 
-  25% {
+  25%,
+  75% {
     transform: rotate(-5deg);
   }
 
   50% {
     transform: rotate(5deg);
-  }
-
-  75% {
-    transform: rotate(-5deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
   }
 }
