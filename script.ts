@@ -120,94 +120,22 @@ const fetchForecastData = async (url: string) => {
 };
 
 const updateForecast = () => {
-    const forecastContainer = document.getElementById("weekForecast")
-    if (forecastContainer) {
-      forecastContainer.innerHTML = ''
-      
-      fetchedData[0].forecast.forEach((day) => {
-        const listItem = document.createElement("li")
-        const iconCode = day.icon
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
-        listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
-        forecastContainer.appendChild(listItem)
-      })
-    } else {
-      console.error("Forecast container not found in the DOM.");
-      alert("An error occurred while updating the forecast. Please try again later.");
-    }
+  const forecastContainer = document.getElementById("weekForecast")
+  if (forecastContainer) {
+    forecastContainer.innerHTML = ''
+
+    fetchedData[0].forecast.forEach((day) => {
+      const listItem = document.createElement("li")
+      const iconCode = day.icon
+      const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
+      listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
+      forecastContainer.appendChild(listItem)
+    })
+  } else {
+    console.error("Forecast container not found in the DOM.");
+    alert("An error occurred while updating the forecast. Please try again later.");
   }
-// const fetchForecastData = async (url:string) => {
-//   try {
-//     const response = await fetch(url)
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`)
-//     }
-//     const data = await response.json()
-//     if (!data.list || data.list.length === 0) {
-//       throw new Error("Forecast data is empty or undefined")
-//     }
-
-//     // Define the type for items in data.list !!!!FATTAR INTE DETTA!!!!!
-    
-//     type ListItem = {
-//       dt: number;
-//       main: {
-//         temp: number;
-//       };
-//       weather: {
-//         main: string;
-//         description: string;
-//         icon: string;
-//       }[];
-//     };
-    
-//     type ForecastItem = {
-//       date: string;      
-//       temp: number;
-//       description: string;
-//       icon: string;    
-//     };
-
-//     fetchedData[0].forecast = data.list
-//       .reduce((acc:ForecastItem[], item:ListItem) => {
-//         const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-//         if (!acc.some(entry => entry.date === date)) {
-//           acc.push({
-//             date: date,
-//             temp: Math.round(item.main.temp - 273.15),
-//             description: item.weather[0].description,
-//             icon: item.weather[0].icon
-//           })
-//         }
-//         return acc
-//       }, [])
-//       .slice(1, 5) // Skip today's date and take the next 4 days
-    
-//     updateForecast()
-//   } catch (error) {
-//     console.error("Error fetching forecast data:", error)
-//     alert("There was an error, please try again later")
-//   }
-// }
-
-// //Update forecast data
-// const updateForecast = () => {
-//   const forecastContainer = document.getElementById("weekForecast")
-//   if (forecastContainer) {
-//     forecastContainer.innerHTML = ''
-    
-//     fetchedData[0].forecast.forEach((day) => {
-//       const listItem = document.createElement("li")
-//       const iconCode = day.icon
-//       const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
-//       listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
-//       forecastContainer.appendChild(listItem)
-//     })
-//   } else {
-//     console.error("Forecast container not found in the DOM.");
-//     alert("An error occurred while updating the forecast. Please try again later.");
-//   }
-// }
+}
 
 //Time conversion
 const timeConversion = () => {
@@ -221,7 +149,6 @@ const timeConversion = () => {
 
     const hours = date.getHours().toString().padStart(2, '0')
     const minutes = date.getMinutes().toString().padStart(2, '0')
-    const seconds = date.getSeconds().toString().padStart(2, '0')
 
 
 
@@ -258,7 +185,7 @@ const updateWeather = () => {
   document.body.className = ''
   if (fetchedData[0].list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear")
-    weatherMain.innerHTML = `Get your sunnies on. ${fetchedData[0].city.name} is looking rather great today.`
+    weatherMain.innerHTML = `Get your sunnies on. ${fetchedData[0].city.name} is looking great today.`
     weatherIcon.innerHTML = `<img
           src="./img/clear.svg"
           alt="Sunglasses for clear weather"
@@ -266,7 +193,7 @@ const updateWeather = () => {
         >`
   } else if (fetchedData[0].list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
-    weatherMain.innerHTML = `It's sweather weather in ${fetchedData[0].city.name} today. Get cosy!`
+    weatherMain.innerHTML = `It's sweater weather in ${fetchedData[0].city.name} today. Get cosy!`
     weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
   } else if (fetchedData[0].list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
