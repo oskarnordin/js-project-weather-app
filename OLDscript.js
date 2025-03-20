@@ -35,51 +35,98 @@ const fetchData = async (url) => {
     console.error("Error fetching data:", error)
   }
 }
-
 const fetchForecastData = async (url) => {
   try {
-    const response = await fetch(url)
+    //console.log(“Fetching forecast data...“);
+    const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`)
+      throw new Error(`HTPP errror! Status: ${response.status}`);
     }
-    const data = await response.json()
+    const data = await response.json();
+    //console.log(“Fetching forecast data...“);
     if (!data.list || data.list.length === 0) {
-      throw new Error("Forecast data is empty or undefined")
+      throw new Error("Forecast data is empty or undefined");
     }
+    //filterr out for clsoest to 12:00
     fetchedData.forecast = data.list
-      .reduce((acc, item) => {
-        const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        if (!acc.some(entry => entry.date === date)) {
-          acc.push({
-            date: date,
-            temp: Math.round(item.main.temp - 273.15),
-            description: item.weather[0].description,
-            icon: item.weather[0].icon
-          })
-        }
-        return acc
-      }, [])
-      .slice(1, 5) // Skip today's date and take the next 4 days
-    console.log("Filtered Forecast Data:", fetchedData.forecast)
-    updateForecast()
+      .filter(item => {
+        const date = new Date(item.dt * 1000);
+        const hours = date.getUTCHours();
+        return hours === 12;
+      })
+      .slice(0, 4) //for 4 days only
+      .map(item => {
+        return {
+          date: new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          temp: Math.round(item.main.temp - 273.15), //from Kelevin to Celsius
+          description: item.weather[0].description,
+          icon: item.weather[0].icon
+        };
+      });
+    console.log("Filtered Forecast Data:", fetchedData.forecast);
+    updateForecast();
   } catch (error) {
-    console.error("Error fetching forecast data:", error)
-    alert("There was an error, please try again later: " + error.message)
+    console.error("Errrror fetching forecast data:", error);
+    alert("There was an error, please try again later: " + error.message);
   }
-}
-
+};
 const updateForecast = () => {
-  const forecastContainer = document.getElementById("weekForecast")
-  forecastContainer.innerHTML = ''
-  console.log(fetchedData.forecast)
+  const forecastContainer = document.getElementById("weekForecast");
+  forecastContainer.innerHTML = ``;
+  console.log(fetchedData.forecast);
   fetchedData.forecast.forEach((day) => {
-    const listItem = document.createElement("li")
-    const iconCode = day.icon
-    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
-    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
-    forecastContainer.appendChild(listItem)
-  })
-}
+    const listItem = document.createElement("li");
+    const iconCode = day.icon;
+            const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`;
+    forecastContainer.appendChild(listItem);
+  });
+};
+
+// const fetchForecastData = async (url) => {
+//   try {
+//     const response = await fetch(url)
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`)
+//     }
+//     const data = await response.json()
+//     if (!data.list || data.list.length === 0) {
+//       throw new Error("Forecast data is empty or undefined")
+//     }
+//     fetchedData.forecast = data.list
+//       .reduce((acc, item) => {
+//         const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+//         if (!acc.some(entry => entry.date === date)) {
+//           acc.push({
+//             date: date,
+//             temp: Math.round(item.main.temp - 273.15),
+//             description: item.weather[0].description,
+//             icon: item.weather[0].icon
+//           })
+//         }
+//         return acc
+//       }, [])
+//       .slice(1, 5) // Skip today's date and take the next 4 days
+//     console.log("Filtered Forecast Data:", fetchedData.forecast)
+//     updateForecast()
+//   } catch (error) {
+//     console.error("Error fetching forecast data:", error)
+//     alert("There was an error, please try again later: " + error.message)
+//   }
+// }
+
+// const updateForecast = () => {
+//   const forecastContainer = document.getElementById("weekForecast")
+//   forecastContainer.innerHTML = ''
+//   console.log(fetchedData.forecast)
+//   fetchedData.forecast.forEach((day) => {
+//     const listItem = document.createElement("li")
+//     const iconCode = day.icon
+//     const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
+//     listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
+//     forecastContainer.appendChild(listItem)
+//   })
+// }
 
 const timeConversion = () => {
   const timestamps = {
@@ -128,7 +175,7 @@ const updateWeather = () => {
         >`
   } else if (fetchedData.list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
-    weatherMain.innerHTML = `It's sweather weather in ${fetchedData.city.name}. Clouds are covering the sky.`
+    weatherMain.innerHTML = `It's sweater weather in ${fetchedData.city.name}. Clouds are covering the sky.`
     weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
   } else if (fetchedData.list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
