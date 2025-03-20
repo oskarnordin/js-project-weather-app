@@ -17,13 +17,6 @@ header {
   padding: 40px 10px 20px 10px;
 }
 
-main {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
 #city-card {
   display: flex;
   flex-direction: column;
