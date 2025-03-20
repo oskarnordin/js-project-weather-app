@@ -74,7 +74,8 @@ const fetchForecastData = async (url:string) => {
     }
 
     // Define the type for items in data.list !!!!FATTAR INTE DETTA!!!!!
-    type ForecastItem = {
+    
+    type ListItem = {
       dt: number;
       main: {
         temp: number;
@@ -85,26 +86,28 @@ const fetchForecastData = async (url:string) => {
         icon: string;
       }[];
     };
+    
+    type ForecastItem = {
+      date: string;      
+      temp: number;
+      description: string;
+      icon: string;    
+    };
 
     fetchedData[0].forecast = data.list
-      .filter((item: ForecastItem) => {
-        const date = new Date(item.dt * 1000)
-        const hours = date.getUTCHours()
-        return hours >= 11 && hours <= 15
-      })
-      .slice(0, 4)
-      .map((item: ForecastItem) => {
-        const date = new Date(item.dt * 1000)
-        const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        const temp = Math.round(item.main.temp - 273.15)
-        const icon = item.weather[0].icon
-        return {
-          date: formattedDate,
-          temp: temp,
-          description: item.weather[0].description,
-          icon: icon
+      .reduce((acc:ForecastItem[], item:ListItem) => {
+        const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        if (!acc.some(entry => entry.date === date)) {
+          acc.push({
+            date: date,
+            temp: Math.round(item.main.temp - 273.15),
+            description: item.weather[0].description,
+            icon: item.weather[0].icon
+          })
         }
-      })
+        return acc
+      }, [])
+      .slice(1, 5) // Skip today's date and take the next 4 days
     console.log("Filtered Forecast Data:", fetchedData[0].forecast)
     updateForecast()
   } catch (error) {
