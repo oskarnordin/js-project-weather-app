@@ -25,8 +25,8 @@ interface FetchedData {
 
 //API URL
 const defaultURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" //Default Stockholm
-const nycURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=40.71427&lon=-74.00597&appid=15a1790288c26c9ab80c3b6f2209e071" // NYC
-const hkURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=22.28552&lon=114.15769&appid=15a1790288c26c9ab80c3b6f2209e071" // Hong Kong
+const parURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=48.85341&lon=2.3488&appid=15a1790288c26c9ab80c3b6f2209e071"; // Paris
+const barURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=41.38879&lon=2.15899&appid=15a1790288c26c9ab80c3b6f2209e071"; // Barcelona
 
 //DOM Elements
 const cityName = document.getElementById("cityName") as HTMLSpanElement
@@ -39,12 +39,11 @@ const weatherMain = document.getElementById("weatherMain") as HTMLHeadingElement
 const nextCity = document.getElementById("nextCity") as HTMLDivElement
 
 let fetchedData: FetchedData[] = []
-
+//Fetch data from API
 const fetchData = async (url:string) => {
   try {
     const response = await fetch(url)
-    //console.log(url)
-
+   
     if (!response.ok) {
       throw new Error(`Status ${response.status}`)
     }
@@ -52,8 +51,7 @@ const fetchData = async (url:string) => {
     const data = await response.json()
 
     fetchedData = data
-    console.log(fetchedData)
-
+    
     updateCity()
     fetchForecastData(url) // Fetch forecast data after fetching main weather data
   } catch (error) {
@@ -62,6 +60,7 @@ const fetchData = async (url:string) => {
   }
 }
 
+//Fetch forecast data from API
 const fetchForecastData = async (url:string) => {
   try {
     const response = await fetch(url)
@@ -108,7 +107,7 @@ const fetchForecastData = async (url:string) => {
         return acc
       }, [])
       .slice(1, 5) // Skip today's date and take the next 4 days
-    console.log("Filtered Forecast Data:", fetchedData[0].forecast)
+    
     updateForecast()
   } catch (error) {
     console.error("Error fetching forecast data:", error)
@@ -116,11 +115,12 @@ const fetchForecastData = async (url:string) => {
   }
 }
 
+//Update forecast data
 const updateForecast = () => {
   const forecastContainer = document.getElementById("weekForecast")
   if (forecastContainer) {
     forecastContainer.innerHTML = ''
-    console.log(fetchedData[0].forecast)
+    
     fetchedData[0].forecast.forEach((day) => {
       const listItem = document.createElement("li")
       const iconCode = day.icon
@@ -134,6 +134,7 @@ const updateForecast = () => {
   }
 }
 
+//Time conversion
 const timeConversion = () => {
   const timestamps: {sunrise: number; sunset: number} = {
     sunrise: fetchedData[0].city.sunrise,
@@ -147,7 +148,7 @@ const timeConversion = () => {
     const minutes = date.getMinutes().toString().padStart(2, '0')
     const seconds = date.getSeconds().toString().padStart(2, '0')
 
-    console.log(`test ${key}: ${hours}:${minutes}:${seconds}`)
+    
 
     // Update the respective HTML elements
     // Safely update the respective HTML elements
@@ -161,6 +162,7 @@ const timeConversion = () => {
   })
 }
 
+//Update city data
 const updateCity = () => {
   if (fetchedData[0].city && fetchedData[0].city.name) {
     cityName.innerHTML = fetchedData[0].city.name
@@ -176,6 +178,7 @@ const updateCity = () => {
   }
 }
 
+//Update weather data
 const updateWeather = () => {
   document.body.className = ''
   if (fetchedData[0].list[0].weather[0].main === "Clear") {
@@ -188,7 +191,7 @@ const updateWeather = () => {
         >`
   } else if (fetchedData[0].list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud")
-    weatherMain.innerHTML = `Light a fire and get cosy. ${fetchedData[0].city.name} is looking grey today.`
+    weatherMain.innerHTML = `It's sweather weather in ${fetchedData[0].city.name} today. Get cosy!`
     weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`
   } else if (fetchedData[0].list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain")
@@ -203,6 +206,7 @@ const updateWeather = () => {
   }
 }
 
+//Update main temperature
 const updateMainTemp = () => {
   if (fetchedData[0].list[0].main.temp) {
     const tempInCelsius = fetchedData[0].list[0].main.temp - 273.15
@@ -212,6 +216,7 @@ const updateMainTemp = () => {
   }
 }
 
+//Search city
 const searchCity = () => {
   const inputElement = document.getElementById("searchInput") as HTMLInputElement;
   if (!inputElement) {
@@ -228,13 +233,14 @@ const searchCity = () => {
   fetchData(searchURL)
 }
 
+//Event listeners
 searchButton.addEventListener("click", searchCity)
 
 const nextCityClick = () => {
   if (fetchedData[0].city.name === "Stockholm") {
-    fetchData(nycURL)
-  } else if (fetchedData[0].city.name === "New York") {
-    fetchData(hkURL)
+    fetchData(parURL)
+  } else if (fetchedData[0].city.name === "Paris") {
+    fetchData(barURL)
   } else {
     fetchData(defaultURL)
   }
@@ -242,4 +248,5 @@ const nextCityClick = () => {
 
 nextCity.addEventListener("click", nextCityClick)
 
+//Initial fetch
 fetchData(defaultURL)

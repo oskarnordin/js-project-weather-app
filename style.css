@@ -19,6 +19,7 @@ header {
   padding: 40px 10px 20px 10px;
 }
 
+/* The whole section with all weather info */
 #city-card {
   display: flex;
   flex-direction: column;
@@ -31,10 +32,11 @@ header {
   padding: 6px;
 }
 
+/* Todays weather description on top of page */
 #todaysForecast {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 i {
@@ -69,6 +71,7 @@ ul {
   padding-left: 0;
 }
 
+/* List of the 4 day forecast */
 li {
   display: flex;
   flex-direction: row;
@@ -78,6 +81,7 @@ li {
   border-bottom: 1px dashed;
 }
 
+/* input and search button in a form */
 form {
   display: flex;
   flex-direction: row;
@@ -95,6 +99,8 @@ input {
 button {
   color: #FFFFFF;
 }
+
+/* Right arrow styling and placement */
 
 #nextCity {
   text-align: right;
@@ -207,7 +213,6 @@ body.clear {
 
 .weatherIconRain {
   animation: wiggle 0.5s ease-in-out infinite;
-
 }
 
 .weatherIconCloud {
