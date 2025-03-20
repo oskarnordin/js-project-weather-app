@@ -5,7 +5,14 @@ interface FetchedData {
     sunrise: number
     sunset: number
   }
+  forecast: {
+    date: string
+    temp: number
+    description: string 
+    icon: string 
+  }[]
   list: {
+    dt: number
     main: {
       temp: number
     }
@@ -29,7 +36,7 @@ const mainTemp = document.getElementById("mainTemp") as HTMLSpanElement
 const weatherIcon = document.getElementById("weatherIcon") as HTMLDivElement
 const searchButton = document.getElementById("inputBtn") as HTMLButtonElement
 const weatherMain = document.getElementById("weatherMain") as HTMLHeadingElement
-let nextCity = document.getElementById("nextCity") as HTMLDivElement
+const nextCity = document.getElementById("nextCity") as HTMLDivElement
 
 let fetchedData: FetchedData[] = []
 
@@ -48,9 +55,79 @@ const fetchData = async (url:string) => {
     console.log(fetchedData)
 
     updateCity()
+    fetchForecastData(url) // Fetch forecast data after fetching main weather data
   } catch (error) {
     alert("There was an error, please try again later: " + error)
     console.error("Error fetching data:", error)
+  }
+}
+
+const fetchForecastData = async (url:string) => {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+    const data = await response.json()
+    if (!data.list || data.list.length === 0) {
+      throw new Error("Forecast data is empty or undefined")
+    }
+
+    // Define the type for items in data.list !!!!FATTAR INTE DETTA!!!!!
+    type ForecastItem = {
+      dt: number;
+      main: {
+        temp: number;
+      };
+      weather: {
+        main: string;
+        description: string;
+        icon: string;
+      }[];
+    };
+
+    fetchedData[0].forecast = data.list
+      .filter((item: ForecastItem) => {
+        const date = new Date(item.dt * 1000)
+        const hours = date.getUTCHours()
+        return hours >= 11 && hours <= 15
+      })
+      .slice(0, 4)
+      .map((item: ForecastItem) => {
+        const date = new Date(item.dt * 1000)
+        const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        const temp = Math.round(item.main.temp - 273.15)
+        const icon = item.weather[0].icon
+        return {
+          date: formattedDate,
+          temp: temp,
+          description: item.weather[0].description,
+          icon: icon
+        }
+      })
+    console.log("Filtered Forecast Data:", fetchedData[0].forecast)
+    updateForecast()
+  } catch (error) {
+    console.error("Error fetching forecast data:", error)
+    alert("There was an error, please try again later")
+  }
+}
+
+const updateForecast = () => {
+  const forecastContainer = document.getElementById("weekForecast")
+  if (forecastContainer) {
+    forecastContainer.innerHTML = ''
+    console.log(fetchedData[0].forecast)
+    fetchedData[0].forecast.forEach((day) => {
+      const listItem = document.createElement("li")
+      const iconCode = day.icon
+      const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`
+      listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`
+      forecastContainer.appendChild(listItem)
+    })
+  } else {
+    console.error("Forecast container not found in the DOM.");
+    alert("An error occurred while updating the forecast. Please try again later.");
   }
 }
 
@@ -76,6 +153,7 @@ const timeConversion = () => {
       element.innerHTML = `${hours}:${minutes}`;
     } else {
       console.warn(`Element with id '${key}' not found in the DOM.`)
+      alert("There was an error, please try again later")
     }
   })
 }
