@@ -1,6 +1,6 @@
 //Interface for fetched data
 interface FetchedData {
-  city:{
+  city: {
     name: string
     sunrise: number
     sunset: number
@@ -8,8 +8,8 @@ interface FetchedData {
   forecast: {
     date: string
     temp: number
-    description: string 
-    icon: string 
+    description: string
+    icon: string
   }[]
   list: {
     dt: number
@@ -24,9 +24,9 @@ interface FetchedData {
 }
 
 //API URL
-const defaultURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" //Default Stockholm
-const parURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=48.85341&lon=2.3488&appid=15a1790288c26c9ab80c3b6f2209e071"; // Paris
-const barURL:string = "https://api.openweathermap.org/data/2.5/forecast?lat=41.38879&lon=2.15899&appid=15a1790288c26c9ab80c3b6f2209e071"; // Barcelona
+const defaultURL: string = "https://api.openweathermap.org/data/2.5/forecast?lat=59.334591&lon=18.063240&appid=15a1790288c26c9ab80c3b6f2209e071" //Default Stockholm
+const parURL: string = "https://api.openweathermap.org/data/2.5/forecast?lat=48.85341&lon=2.3488&appid=15a1790288c26c9ab80c3b6f2209e071"; // Paris
+const barURL: string = "https://api.openweathermap.org/data/2.5/forecast?lat=41.38879&lon=2.15899&appid=15a1790288c26c9ab80c3b6f2209e071"; // Barcelona
 
 //DOM Elements
 const cityName = document.getElementById("cityName") as HTMLSpanElement
@@ -40,10 +40,10 @@ const nextCity = document.getElementById("nextCity") as HTMLDivElement
 
 let fetchedData: FetchedData[] = []
 //Fetch data from API
-const fetchData = async (url:string) => {
+const fetchData = async (url: string) => {
   try {
     const response = await fetch(url)
-   
+
     if (!response.ok) {
       throw new Error(`Status ${response.status}`)
     }
@@ -51,7 +51,7 @@ const fetchData = async (url:string) => {
     const data = await response.json()
 
     fetchedData = data
-    
+
     updateCity()
     fetchForecastData(url) // Fetch forecast data after fetching main weather data
   } catch (error) {
@@ -61,7 +61,7 @@ const fetchData = async (url:string) => {
 }
 
 //Fetch forecast data from API
-const fetchForecastData = async (url:string) => {
+const fetchForecastData = async (url: string) => {
   try {
     //console.log(“Fetching forecast data...“);
     const response = await fetch(url);
@@ -75,7 +75,7 @@ const fetchForecastData = async (url:string) => {
     }
 
     // Define the type for items in data.list !!!!FATTAR INTE DETTA!!!!!
-    
+
     type ListItem = {
       dt: number;
       main: {
@@ -87,12 +87,12 @@ const fetchForecastData = async (url:string) => {
         icon: string;
       }[];
     };
-    
+
     type ForecastItem = {
-      date: string;      
+      date: string;
       temp: number;
       description: string;
-      icon: string;    
+      icon: string;
     };
 
     //filter out time for 12:00
@@ -211,7 +211,7 @@ const updateForecast = () => {
 
 //Time conversion
 const timeConversion = () => {
-  const timestamps: {sunrise: number; sunset: number} = {
+  const timestamps: { sunrise: number; sunset: number } = {
     sunrise: fetchedData[0].city.sunrise,
     sunset: fetchedData[0].city.sunset,
   };
@@ -223,7 +223,7 @@ const timeConversion = () => {
     const minutes = date.getMinutes().toString().padStart(2, '0')
     const seconds = date.getSeconds().toString().padStart(2, '0')
 
-    
+
 
     // Update the respective HTML elements
     // Safely update the respective HTML elements
@@ -306,6 +306,9 @@ const searchCity = () => {
   }
   let searchURL = `https://api.openweathermap.org/data/2.5/forecast?q=${input}&appid=15a1790288c26c9ab80c3b6f2209e071`
   fetchData(searchURL)
+
+  // Clear the input field after the search
+  inputElement.value = "";
 }
 
 //Event listeners
