@@ -202,7 +202,7 @@ const updateWeather = () => {
           class="weatherIcon weatherIconRain"
         >`
   } else {
-    document.body.classList.add("default")
+    document.body.classList.add("")
   }
 }
 
