@@ -1,5 +1,6 @@
 # js-project-weather-app
 HeatherWeather 
+
 HeatherWeather is a sleek and responsive weather app built with TypeScript. It provides real-time weather updates with delightful animations, including:
 
 Current temperature 
