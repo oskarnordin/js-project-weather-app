@@ -4,6 +4,7 @@ interface FetchedData {
     name: string
     sunrise: number
     sunset: number
+    timezone: number
   }
   forecast: {
     date: string
@@ -63,18 +64,16 @@ const fetchData = async (url: string) => {
 //Fetch forecast data from API
 const fetchForecastData = async (url: string) => {
   try {
-    //console.log(“Fetching forecast data...“);
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTPP errror! Status: ${response.status}`);
     }
     const data = await response.json();
-    //console.log(“Fetching forecast data...“);
     if (!data.list || data.list.length === 0) {
       throw new Error("Forecast data is empty or undefined");
     }
 
-    // Define the type for items in data.list !!!!FATTAR INTE DETTA!!!!!
+    // Define the type for items in data.list
 
     type ListItem = {
       dt: number;
@@ -111,7 +110,6 @@ const fetchForecastData = async (url: string) => {
           icon: item.weather[0].icon
         };
       });
-    console.log("Filtered Forecast Data:", fetchedData[0].forecast);
     updateForecast();
   } catch (error) {
     console.error("Errrror fetching forecast data:", error);
@@ -139,30 +137,28 @@ const updateForecast = () => {
 
 //Time conversion
 const timeConversion = () => {
-  const timestamps: { sunrise: number; sunset: number } = {
+  const timestamps = {
     sunrise: fetchedData[0].city.sunrise,
-    sunset: fetchedData[0].city.sunset,
+    sunset: fetchedData[0].city.sunset,    
   };
+  const timezone = fetchedData[0].city.timezone;
 
-  (Object.entries(timestamps) as [key: "sunrise" | "sunset", value: number][]).forEach(([key, value]) => {
-    const date = new Date(value * 1000)
-
-    const hours = date.getHours().toString().padStart(2, '0')
-    const minutes = date.getMinutes().toString().padStart(2, '0')
-
-
-
+  Object.entries(timestamps).forEach(([key, value]) => { 
+    const date = new Date((value + timezone) * 1000);    
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');  
+    
     // Update the respective HTML elements
-    // Safely update the respective HTML elements
     const element = document.getElementById(key);
     if (element) {
       element.innerHTML = `${hours}:${minutes}`;
-    } else {
-      console.warn(`Element with id '${key}' not found in the DOM.`)
-      alert("There was an error, please try again later")
     }
-  })
-}
+    else {
+      console.warn(`Element with id '${key}' not found in the DOM.`);
+      alert("There was an error, please try again later");
+    }   
+  });
+};
 
 //Update city data
 const updateCity = () => {

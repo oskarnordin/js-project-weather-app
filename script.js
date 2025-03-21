@@ -38,13 +38,11 @@ const fetchData = async (url) => {
 //Fetch Forecast data
 const fetchForecastData = async (url) => {
     try {
-      //console.log(“Fetching forecast data...“);
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTPP errror! Status: ${response.status}`);
       }
       const data = await response.json();
-      //console.log(“Fetching forecast data...“);
       if (!data.list || data.list.length === 0) {
         throw new Error("Forecast data is empty or undefined");
       }
@@ -64,7 +62,6 @@ const fetchForecastData = async (url) => {
             icon: item.weather[0].icon
           };
         });
-      console.log("Filtered Forecast Data:", fetchedData.forecast);
       updateForecast();
     } catch (error) {
       console.error("Errrror fetching forecast data:", error);
@@ -74,7 +71,6 @@ const fetchForecastData = async (url) => {
   const updateForecast = () => {
     const forecastContainer = document.getElementById("weekForecast");
     forecastContainer.innerHTML = ``;
-    console.log(fetchedData.forecast);
     fetchedData.forecast.forEach((day) => {
       const listItem = document.createElement("li");
       const iconCode = day.icon;
@@ -88,14 +84,15 @@ const fetchForecastData = async (url) => {
 const timeConversion = () => {
   const timestamps = {
     sunrise: fetchedData[0].city.sunrise,
-    sunset: fetchedData[0].city.sunset,
+    sunset: fetchedData[0].city.sunset,    
   };
-  Object.entries(timestamps).forEach(([key, value]) => {
-    const date = new Date(value * 1000);
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
+  const timezone = fetchedData[0].city.timezone;
 
-
+  Object.entries(timestamps).forEach(([key, value]) => { 
+    const date = new Date((value + timezone) * 1000);    
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');  
+    
     // Update the respective HTML elements
     const element = document.getElementById(key);
     if (element) {
@@ -104,7 +101,7 @@ const timeConversion = () => {
     else {
       console.warn(`Element with id '${key}' not found in the DOM.`);
       alert("There was an error, please try again later");
-    }
+    }   
   });
 };
 
