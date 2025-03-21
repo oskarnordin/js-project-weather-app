@@ -37,52 +37,52 @@ const fetchData = async (url) => {
 
 //Fetch Forecast data
 const fetchForecastData = async (url) => {
-  try {
-    //console.log(“Fetching forecast data...“);
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTPP errror! Status: ${response.status}`);
+    try {
+      //console.log(“Fetching forecast data...“);
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTPP errror! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      //console.log(“Fetching forecast data...“);
+      if (!data.list || data.list.length === 0) {
+        throw new Error("Forecast data is empty or undefined");
+      }
+      //filterr out for clsoest to 12:00
+      fetchedData.forecast = data.list
+        .filter(item => {
+          const date = new Date(item.dt * 1000);
+          const hours = date.getUTCHours();
+          return hours === 12;
+        })
+        .slice(0, 4) //for 4 days only
+        .map(item => {
+          return {
+            date: new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            temp: Math.round(item.main.temp - 273.15), //from Kelevin to Celsius
+            description: item.weather[0].description,
+            icon: item.weather[0].icon
+          };
+        });
+      console.log("Filtered Forecast Data:", fetchedData.forecast);
+      updateForecast();
+    } catch (error) {
+      console.error("Errrror fetching forecast data:", error);
+      alert("There was an error, please try again later: " + error.message);
     }
-    const data = await response.json();
-    //console.log(“Fetching forecast data...“);
-    if (!data.list || data.list.length === 0) {
-      throw new Error("Forecast data is empty or undefined");
-    }
-    //filterr out for clsoest to 12:00
-    fetchedData.forecast = data.list
-      .filter(item => {
-        const date = new Date(item.dt * 1000);
-        const hours = date.getUTCHours();
-        return hours === 12;
-      })
-      .slice(0, 4) //for 4 days only
-      .map(item => {
-        return {
-          date: new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-          temp: Math.round(item.main.temp - 273.15), //from Kelevin to Celsius
-          description: item.weather[0].description,
-          icon: item.weather[0].icon
-        };
-      });
-    console.log("Filtered Forecast Data:", fetchedData.forecast);
-    updateForecast();
-  } catch (error) {
-    console.error("Errrror fetching forecast data:", error);
-    alert("There was an error, please try again later: " + error.message);
-  }
-};
-const updateForecast = () => {
-  const forecastContainer = document.getElementById("weekForecast");
-  forecastContainer.innerHTML = ``;
-  console.log(fetchedData.forecast);
-  fetchedData.forecast.forEach((day) => {
-    const listItem = document.createElement("li");
-    const iconCode = day.icon;
-    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
-    listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`;
-    forecastContainer.appendChild(listItem);
-  });
-};
+  };
+  const updateForecast = () => {
+    const forecastContainer = document.getElementById("weekForecast");
+    forecastContainer.innerHTML = ``;
+    console.log(fetchedData.forecast);
+    fetchedData.forecast.forEach((day) => {
+      const listItem = document.createElement("li");
+      const iconCode = day.icon;
+              const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+      listItem.innerHTML = `<span>${day.date}</span> <span>${day.temp}°C</span> <img src="${iconUrl}" alt="${day.description} icon"> <span>${day.description}</span>`;
+      forecastContainer.appendChild(listItem);
+    });
+  };
 
 //Time conversion
 const timeConversion = () => {
@@ -127,7 +127,7 @@ const updateWeather = () => {
   document.body.className = '';
   if (fetchedData[0].list[0].weather[0].main === "Clear") {
     document.body.classList.add("clear");
-    weatherMain.innerHTML = `Get your sunnies on. ${fetchedData[0].city.name} is looking great today.`;
+    weatherMain.innerHTML = `Get your sunnies on. ${fetchedData[0].city.name} is looking rather great today.`;
     weatherIcon.innerHTML = `<img
           src="./img/clear.svg"
           alt="Sunglasses for clear weather"
@@ -136,13 +136,10 @@ const updateWeather = () => {
   }
   else if (fetchedData[0].list[0].weather[0].main === "Clouds") {
     document.body.classList.add("cloud");
-    weatherMain.innerHTML = `It's sweater weather in ${fetchedData[0].city.name} today. Get cosy!`;
+    weatherMain.innerHTML = `It's sweather weather in ${fetchedData[0].city.name} today. Get cosy!`;
     weatherIcon.innerHTML = `<i class="fa-solid fa-cloud weatherIcon weatherIconCloud"></i>`;
-  } else if (fetchedData[0].list[0].weather[0].main === "Snow") {
-    document.body.classList.add("snow")
-    weatherMain.innerHTML = `It's snowing in ${fetchedData[0].city.name} today. Grab your sled!`
-    weatherIcon.innerHTML = `<i class="fa-solid fa-snowflake weatherIcon weatherIconSnow"></i>`
-  } else if (fetchedData[0].list[0].weather[0].main === "Rain") {
+  }
+  else if (fetchedData[0].list[0].weather[0].main === "Rain") {
     document.body.classList.add("rain");
     weatherMain.innerHTML = `Don't forget your umbrella. It's wet in ${fetchedData[0].city.name} today.`;
     weatherIcon.innerHTML = `<img
@@ -150,8 +147,9 @@ const updateWeather = () => {
           alt="An umbrella for rainy weather"
           class="weatherIcon weatherIconRain"
         >`;
-  } else {
-    document.body.classList.add("");
+  }
+  else {
+    document.body.classList.add("default");
   }
 };
 
