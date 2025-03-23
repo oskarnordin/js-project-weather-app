@@ -101,7 +101,7 @@ const fetchForecastData = async (url: string) => {
         const hours = date.getUTCHours();
         return hours === 12;
       })
-      .slice(0, 4) //for 4 days only
+      .slice(1, 5) //for 4 days only
       .map((item: ListItem) => {
         return {
           date: new Date(item.dt * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
